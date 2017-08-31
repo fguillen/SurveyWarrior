@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - Survey
   - Bad
+  - Building
+  - Respondent
   layers:
   - Default
   - TransparentFX
