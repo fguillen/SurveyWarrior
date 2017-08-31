@@ -8,12 +8,15 @@ public class EnemyController : MonoBehaviour {
 	public float velocity;
 	public GameObject player;
 	private PlayerController playerController;
+	private Animator animator;
 
 
 	// Use this for initialization
 	void Start () {
 		direction = "right";	
 		playerController = player.GetComponent<PlayerController> ();
+		animator = GetComponent<Animator> ();
+		animator.SetBool ("walkingRight", true);
 	}
 	
 	// Update is called once per frame
@@ -50,8 +53,10 @@ public class EnemyController : MonoBehaviour {
 	void changeDirection() {
 		if (direction == "right") {
 			direction = "left";
+			animator.SetBool ("walkingRight", false);
 		} else {
 			direction = "right";
+			animator.SetBool ("walkingRight", true);
 		}
 	}
 }
