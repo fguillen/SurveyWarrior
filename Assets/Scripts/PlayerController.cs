@@ -12,17 +12,16 @@ public class PlayerController : MonoBehaviour {
 	private bool idle;
 	private bool jumping;
 	private bool grounded;
-	private BoxCollider2D collider;
 	public int numOfSurveysCollected;
 	public int timeRemaining;
 	public int points;
 	public int lifesRemaining;
+	private int surveyCPI;
 
 	// Use this for initialization
 	void Start () {
 		direction = "right";
 		body = GetComponent<Rigidbody2D> ();
-		collider = GetComponent<BoxCollider2D> ();
 		walking = false;
 		idle = true;
 		jumping = false;
@@ -31,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 		timeRemaining = 100;
 		points = 0;
 		lifesRemaining = 3;
+		surveyCPI = 10;
 	}
 	
 	// Update is called once per frame
@@ -101,8 +101,12 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D hit) {
 		if (hit.CompareTag ("Survey")) {
 			Debug.Log ("Survey!!");
-			numOfSurveysCollected += 1;
-			Destroy (hit.gameObject);
+			collectSurvey (hit.gameObject);
+		}
+
+		if (hit.CompareTag ("Respondent")) {
+			Debug.Log ("Respondent!!");
+			finishLevel ();
 		}
 	}
 
@@ -114,8 +118,19 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void collectSurvey (GameObject survey) {
+		numOfSurveysCollected += 1;
+		Destroy (survey);
+		points += 5;
+	}
+
 	void die () {
 		Debug.Log ("You are dead!!");
 		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	void finishLevel () {
+		Debug.Log ("Congrats!!");
+		points += numOfSurveysCollected * surveyCPI;
 	}
 }
