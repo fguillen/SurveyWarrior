@@ -6,10 +6,14 @@ public class EnemyController : MonoBehaviour {
 
 	private string direction;
 	public float velocity;
+	public GameObject player;
+	private PlayerController playerController;
+
 
 	// Use this for initialization
 	void Start () {
 		direction = "right";	
+		playerController = player.GetComponent<PlayerController> ();
 	}
 	
 	// Update is called once per frame
@@ -34,11 +38,12 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
-		Debug.Log ("Enemy Collision!!");
-
 		if (collision.gameObject.CompareTag ("Building")) {
-			Debug.Log ("Building!!");
 			changeDirection ();
+		}
+
+		if (collision.gameObject.CompareTag ("Player")) {
+			playerController.removeLife ();
 		}
 	}
 

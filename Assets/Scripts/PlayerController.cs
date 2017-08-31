@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("PlayerController");
-
 		direction = "right";
 		body = GetComponent<Rigidbody2D> ();
 		collider = GetComponent<BoxCollider2D> ();
@@ -41,13 +39,11 @@ public class PlayerController : MonoBehaviour {
 		walking = false;
 
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			Debug.Log ("Direction right!");
 			direction = "right";
 			walking = true;
 		}
 
 		if (Input.GetKey(KeyCode.LeftArrow)) {
-			Debug.Log ("Direction left!");
 			direction = "left";
 			walking = true;
 		}
@@ -74,7 +70,6 @@ public class PlayerController : MonoBehaviour {
 		jumping = false;
 
 		if (Input.GetKeyDown (KeyCode.Space) && isGrounded()) {
-			Debug.Log ("Jumping!");
 			jumping = true;
 			body.AddForce (new Vector3 (0, jumpingImpulse, 0));
 		}
@@ -104,12 +99,23 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D hit) {
-		Debug.Log ("Collision!!");
-
 		if (hit.CompareTag ("Survey")) {
 			Debug.Log ("Survey!!");
 			numOfSurveysCollected += 1;
 			Destroy (hit.gameObject);
 		}
+	}
+
+	public void removeLife() {
+		if ( lifesRemaining == 0 ) {
+			die ();
+		} else {
+			lifesRemaining -= 1;
+		}
+	}
+
+	void die () {
+		Debug.Log ("You are dead!!");
+		Application.LoadLevel(Application.loadedLevel);
 	}
 }
